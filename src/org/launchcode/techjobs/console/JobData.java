@@ -116,7 +116,6 @@ public class JobData {
                 if (lowerSearchString.contains(lowerValue)) {
                     jobs.add(row);
                     break;
-
                 }
 
             }
