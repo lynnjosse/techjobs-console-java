@@ -111,7 +111,9 @@ public class JobData {
             for (Map.Entry<String, String> jobPair : row.entrySet()) {
 
                 String searchString = jobPair.getValue();
-                if (searchString.contains(value)) {
+                String lowerSearchString = searchString.toLowerCase();
+                String lowerValue = value.toLowerCase();
+                if (lowerSearchString.contains(lowerValue)) {
                     jobs.add(row);
                     break;
 
