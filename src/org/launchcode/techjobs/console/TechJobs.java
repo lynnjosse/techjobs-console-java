@@ -2,6 +2,7 @@ package org.launchcode.techjobs.console;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -30,9 +31,7 @@ public class TechJobs {
 
         // Allow the user to search until they manually quit
         while (true) {
-
             String actionChoice = getUserSelection("View jobs by:", actionChoices);
-
             if (actionChoice.equals("list")) {
 
                 String columnChoice = getUserSelection("List", columnChoices);
@@ -40,11 +39,8 @@ public class TechJobs {
                 if (columnChoice.equals("all")) {
                     printJobs(JobData.findAll());
                 } else {
-
                     ArrayList<String> results = JobData.findAll(columnChoice);
-
                     System.out.println("\n*** All " + columnChoices.get(columnChoice) + " Values ***");
-
                     // Print list of skills, employers, etc
                     for (String item : results) {
                         System.out.println(item);
@@ -61,14 +57,14 @@ public class TechJobs {
                 String searchTerm = in.nextLine();
 
                 if (searchField.equals("all")) {
-                    System.out.println("Search all fields not yet implemented.");
+                    printJobs(JobData.findByValue(searchTerm));
+                    //printJobs(JobData.findByValue(searchTerm));
                 } else {
                     printJobs(JobData.findByColumnAndValue(searchField, searchTerm));
                 }
             }
         }
     }
-
     // ﻿Returns the key of the selected item from the choices Dictionary
     private static String getUserSelection(String menuHeader, HashMap<String, String> choices) {
 
@@ -76,8 +72,7 @@ public class TechJobs {
         Boolean validChoice = false;
         String[] choiceKeys = new String[choices.size()];
 
-        // Put the choices in an ordered structure so we can
-        // associate an integer with each one
+        // Put the choices in an ordered structure so we can associate an integer with each one
         Integer i = 0;
         for (String choiceKey : choices.keySet()) {
             choiceKeys[i] = choiceKey;
@@ -111,6 +106,18 @@ public class TechJobs {
     // Print a list of jobs
     private static void printJobs(ArrayList<HashMap<String, String>> someJobs) {
 
-        System.out.println("printJobs is not implemented yet");
+        if (someJobs.isEmpty()) {
+            System.out.println("No results. Please try another search.");
+        }
+
+        for (HashMap<String,String> oneJob: someJobs) {
+            System.out.println("*****");
+            for (Map.Entry<String, String> jobDataPair : oneJob.entrySet()) {
+                System.out.println(jobDataPair.getKey() + ": " + jobDataPair.getValue() );
+            }
+
+        }
+
+
     }
 }

@@ -10,9 +10,15 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by LaunchCode
+ * this file has no main method;
+ * the main method in the other file consults
+ * this one for data-related stuff, eventually
+ * this will be the m in our mvc model,
+ * is I think what Chris said.
  */
 public class JobData {
 
@@ -20,6 +26,8 @@ public class JobData {
     private static Boolean isDataLoaded = false;
 
     private static ArrayList<HashMap<String, String>> allJobs;
+
+
 
     /**
      * Fetch list of all values from loaded data,
@@ -82,6 +90,38 @@ public class JobData {
         }
 
         return jobs;
+    }
+
+    /* find values across all columns
+    don't return multiple matches from the same row
+     */
+    public static ArrayList<HashMap<String, String>> findByValue (String value) {
+
+        // load data, if not already loaded
+        loadData();
+
+        //for value in hashmap,
+        //does it contain search term "value"
+        //if so, add hashMap to listArray and break to next hashmap
+
+        ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
+
+        for (HashMap<String, String> row : allJobs) {
+
+            for (Map.Entry<String, String> jobPair : row.entrySet()) {
+
+                String searchString = jobPair.getValue();
+                if (searchString.contains(value)) {
+                    jobs.add(row);
+                    break;
+
+                }
+
+            }
+        }
+
+        return jobs;
+
     }
 
     /**
